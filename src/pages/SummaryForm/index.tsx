@@ -1,7 +1,7 @@
 import React from 'react';
 
 const SummaryForm = () => {
-  return <div>SummaryForm</div>;
+  return <div />;
 };
 
 export default SummaryForm;
