@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { pricePerItem } from '../constants';
+import { pricePerItem } from '../../constants';
 
 type TOrderDetailsContext = {
   optionCounts: TOptionCounts;
@@ -7,14 +7,12 @@ type TOrderDetailsContext = {
     scoops: number;
     toppings: number;
   };
-  updateItemCount: (params: TUpdateItemCountParams) => void;
+  updateItemCount: (
+    itemName: string,
+    newItemCount: number,
+    optionType: TOptionType
+  ) => void;
   resetOrder: () => void;
-};
-
-type TUpdateItemCountParams = {
-  itemName: string;
-  newItemCount: number;
-  optionType: 'scoops' | 'toppings';
 };
 
 type TOptionCounts = {
@@ -59,11 +57,11 @@ export const OrderDetailsProvider = ({ children }: TProps) => {
     toppings: {}, // example: { "Gummi Bears": 1 }
   });
 
-  const updateItemCount = ({
-    itemName,
-    newItemCount,
-    optionType,
-  }: TUpdateItemCountParams) => {
+  const updateItemCount = (
+    itemName: string,
+    newItemCount: number,
+    optionType: TOptionType
+  ) => {
     // make a copy of existing state
     const newOptionCounts = { ...optionCounts };
 
