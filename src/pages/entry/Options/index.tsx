@@ -30,7 +30,7 @@ const Options = ({ optionType }: TProps) => {
       .get(`http://localhost:3030/${optionType}`, { signal: controller.signal })
       .then(response => setItems(response.data))
       .catch(error => {
-        if (error.name !== 'CancelledError') setError(true);
+        if (error.name !== 'CanceledError') setError(true);
       });
 
     // abort axios call on component unmount
@@ -62,7 +62,7 @@ const Options = ({ optionType }: TProps) => {
       <p>
         {title} total: {formatCurrency(totals[optionType])}
       </p>
-      <Row>{optionItems}</Row>;
+      <Row>{optionItems}</Row>
     </>
   );
 };
