@@ -57,7 +57,10 @@ test('update toppings subtotal when toppings change', async () => {
 describe('grand total', () => {
   test('grand total starts at $0.00', () => {
     // Test that the total starts out at $0.00
-    const { unmount } = render(<OrderEntry />);
+    const mockSetOrderPhase = jest.fn();
+    const { unmount } = render(
+      <OrderEntry setOrderPhase={mockSetOrderPhase} />
+    );
     const grandTotal = screen.getByRole('heading', { name: /Grand total: \$/ });
     expect(grandTotal).toHaveTextContent('0.00');
 
@@ -66,7 +69,8 @@ describe('grand total', () => {
 
   test('grand total updates properly if scoop is added first', async () => {
     const user = userEvent.setup();
-    render(<OrderEntry />);
+    const mockSetOrderPhase = jest.fn();
+    render(<OrderEntry setOrderPhase={mockSetOrderPhase} />);
     const grandTotal = screen.getByRole('heading', { name: /Grand total: \$/ });
 
     // update vanilla scoops to 2 and check grand total
@@ -87,7 +91,8 @@ describe('grand total', () => {
 
   test('grand total updates properly if topping is added first', async () => {
     const user = userEvent.setup();
-    render(<OrderEntry />);
+    const mockSetOrderPhase = jest.fn();
+    render(<OrderEntry setOrderPhase={mockSetOrderPhase} />);
     const grandTotal = screen.getByRole('heading', { name: /Grand total: \$/ });
 
     // add cherries and check grand total
@@ -108,7 +113,8 @@ describe('grand total', () => {
 
   test('grand total updates properly if item is removed', async () => {
     const user = userEvent.setup();
-    render(<OrderEntry />);
+    const mockSetOrderPhase = jest.fn();
+    render(<OrderEntry setOrderPhase={mockSetOrderPhase} />);
 
     // add cherries
     const cherriesCheckbox = await screen.findByRole('checkbox', {

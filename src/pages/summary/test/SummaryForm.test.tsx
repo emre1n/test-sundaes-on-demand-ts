@@ -3,7 +3,8 @@ import SummaryForm from '../SummaryForm';
 import userEvent from '@testing-library/user-event';
 
 test('Initial conditions', () => {
-  render(<SummaryForm />);
+  const mockSetOrderPhase = jest.fn();
+  render(<SummaryForm setOrderPhase={mockSetOrderPhase} />);
   const checkbox = screen.getByRole('checkbox', {
     name: /terms and conditions/i,
   });
@@ -18,7 +19,8 @@ test('Initial conditions', () => {
 test('Checkbox enables button on first click and disables on second click', async () => {
   const user = userEvent.setup();
 
-  render(<SummaryForm />);
+  const mockSetOrderPhase = jest.fn();
+  render(<SummaryForm setOrderPhase={mockSetOrderPhase} />);
   const checkbox = screen.getByRole('checkbox', {
     name: /terms and conditions/i,
   });
@@ -33,7 +35,8 @@ test('Checkbox enables button on first click and disables on second click', asyn
 
 test('popover responds to hover', async () => {
   const user = userEvent.setup();
-  render(<SummaryForm />);
+  const mockSetOrderPhase = jest.fn();
+  render(<SummaryForm setOrderPhase={mockSetOrderPhase} />);
 
   // popover starts out hidden
   const nullPopover = screen.queryByText(

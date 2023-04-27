@@ -5,7 +5,13 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
-const SummaryForm = ({ setOrderPhase }) => {
+type TOrderPhase = 'inProgress' | 'review' | 'completed';
+
+type TProps = {
+  setOrderPhase: (orderPhase: TOrderPhase) => void;
+};
+
+const SummaryForm = ({ setOrderPhase }: TProps) => {
   const [tcChecked, setTcChecked] = useState(false);
   const checkboxChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTcChecked(e.target.checked);
