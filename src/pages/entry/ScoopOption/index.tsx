@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
@@ -12,9 +12,23 @@ type TProps = {
 const ScoopOption = ({ name, imagePath }: TProps) => {
   const { updateItemCount } = useOrderDetails();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    updateItemCount(name, value, 'scoops');
+  const [isValid, setIsValid] = useState(true);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const currentValue = event.target.value;
+
+    // make sure we're using a number and not a string to validate
+    const currentValueFloat = parseFloat(currentValue);
+    const valueIsValid =
+      0 <= currentValueFloat &&
+      currentValueFloat <= 10 &&
+      Math.floor(currentValueFloat) === currentValueFloat;
+
+    // validate
+    setIsValid(valueIsValid);
+
+    // adjust scoop count with currentValue if it's valid; 0 if it's not
+    const newValue = valueIsValid ? parseInt(currentValue) : 0;
+    updateItemCount(name, newValue, 'scoops');
   };
 
   return (
@@ -37,6 +51,7 @@ const ScoopOption = ({ name, imagePath }: TProps) => {
             type="number"
             defaultValue={0}
             onChange={handleChange}
+            isInvalid={!isValid}
           />
         </Col>
       </Form.Group>
