@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import { useOrderDetails } from '../../../contexts/order-details';
+import AlertBanner from '../../common/AlertBanner';
 
 type TOrderPhase = 'inProgress' | 'review' | 'completed';
 
@@ -12,6 +13,7 @@ type TProps = {
 const OrderConfirmation = ({ setOrderPhase }: TProps) => {
   const { resetOrder } = useOrderDetails();
   const [orderNumber, setOrderNumber] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     axios
@@ -21,9 +23,7 @@ const OrderConfirmation = ({ setOrderPhase }: TProps) => {
       .then(response => {
         setOrderNumber(response.data.orderNumber);
       })
-      .catch(error => {
-        // TODO: handle error here
-      });
+      .catch(error => setError(true));
   }, []);
 
   const handleClick = () => {
@@ -34,6 +34,19 @@ const OrderConfirmation = ({ setOrderPhase }: TProps) => {
     setOrderPhase('inProgress');
   };
 
+  const newOrderButton = (
+    <Button onClick={handleClick}>Create new order</Button>
+  );
+
+  if (error) {
+    return (
+      <>
+        <AlertBanner message={null} variant={null} />
+        {newOrderButton}
+      </>
+    );
+  }
+
   if (orderNumber) {
     return (
       <div style={{ textAlign: 'center' }}>
@@ -42,7 +55,7 @@ const OrderConfirmation = ({ setOrderPhase }: TProps) => {
         <p style={{ fontSize: '25%' }}>
           as per our terms and conditions, nothing will happen now
         </p>
-        <Button onClick={handleClick}>Create new order</Button>
+        {newOrderButton}
       </div>
     );
   } else {
